@@ -49,7 +49,7 @@ class UserRegistration(GenericAPIView):
             username = serializers.validated_data["username"]
             confirmation_token = default_token_generator.make_token(user)
             self.profile_queryset.create(user=user, full_name=full_name)
-            send_email_verification_mail(
+            send_email_verification_mail.delay(
                 username=username, email=email, token=confirmation_token
             )
             return Response(
@@ -199,7 +199,7 @@ class RequestResetPasswordEmail(GenericAPIView):
                 email = serializer.validated_data["email_address"]
                 user = self.queryset.get(email_address=email)
                 password_reset_token = default_token_generator.make_token(user)
-                send_reset_password_email(
+                send_reset_password_email.delay(
                     username=user.username, email=email, token=password_reset_token
                 )
                 return Response({"status": "sucess", "detail": "reset email sent"})

@@ -15,6 +15,7 @@ from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -172,3 +173,6 @@ EMAIL_HOST_USER = "apikey"  # this is exactly the value 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+CELERY_BROKER_URL = config('CELERY_BROKER_REDIS_URL', 
+                           default='redis://default:IvcZyq5DIt94TtjQgAu3KtVUuX3H4u0v@redis-12147.c44.us-east-1-2.ec2.cloud.redislabs.com:12147')

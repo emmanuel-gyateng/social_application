@@ -79,3 +79,4 @@ C:.
 5. Install the dependencies using `pip install -r requirements.txt`
 6. Migrate existing db tables by running `python manage.py migrate`
 7. Run the django development server using `python manage.py runserver`
+8. Run Celery worker using `celery -A socialApp worker -l INFO -P gevent` on another proccess.

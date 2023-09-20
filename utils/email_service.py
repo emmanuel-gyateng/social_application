@@ -1,11 +1,11 @@
 import os
 
 from django.core.mail import send_mail
-
+from celery import shared_task
 FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
 HOST_LINK = os.getenv("VERIFY_HOSTNAME")
 
-
+@shared_task
 def send_email_verification_mail(username, email, token):
     """Sending email service"""
     link = f"{HOST_LINK}accounts/verify-email/?iam={email}&def={token}"
@@ -13,7 +13,7 @@ def send_email_verification_mail(username, email, token):
     message = f"Hello {username}, \n\n Please use the link below to verify your account\n\n {link}"
     send_mail(subject, message, FROM_EMAIL, [email])
 
-
+@shared_task
 def send_reset_password_email(username, email, token):
     """Sending email service"""
     link = f"{HOST_LINK}accounts/reset-password/confirm/?iam={email}&def={token}"
